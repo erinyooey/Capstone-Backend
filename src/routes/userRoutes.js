@@ -5,6 +5,7 @@ const {
   login,
   displayAll,
   displayOne,
+  // displayMe,
   deleteUser,
   updateUser,
   favoriteRestaurant,
@@ -27,6 +28,7 @@ route.delete("/:id/delete_user", isLoggedIn, deleteUser);
 
 route.get("/all_users", isLoggedIn, displayAll);
 route.get("/:id/user", isLoggedIn, displayOne);
+// route.get ("/:id/me", isLoggedIn, displayMe);
 
 route.post("/:id/favorite_restaurant", isLoggedIn, favoriteRestaurant);
 route.delete(

@@ -20,6 +20,7 @@ const registerQuery = async ({ firstName, lastName, email, password }) => {
       expiresIn: "1h",
     }
   );
+
   return {
     token: token,
     firstName: registerUser.firstName,
@@ -47,6 +48,7 @@ const loginQuery = async ({ email, password }) => {
     );
     return {
       token: token,
+      id: userLogin.id,
       firstName: userLogin.firstName,
       lastName: userLogin.lastName,
       email: userLogin.email,
@@ -71,6 +73,23 @@ const getOneUser = async (userId) => {
   return oneUser;
   console.log(oneUser);
 };
+
+// const getMe = async (userId) => {
+//   let meUser;
+
+//   try {
+//    meUser = await prisma.user.findUnique({
+//     where:{
+//       id: userId,
+//     }
+//    });
+
+//   } catch (error) {
+//     console.log(error);
+//   }
+//   return meUser;
+//   console.log(meUser)
+// };
 
 const getAllUser = async () => {
   let allUsers;
@@ -183,6 +202,7 @@ module.exports = {
   loginQuery,
   getAllUser,
   getOneUser,
+  // getMe,
   findUserWithToken,
   destroyUser,
   alterUser,
