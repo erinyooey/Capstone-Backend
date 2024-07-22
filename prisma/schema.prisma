@@ -22,12 +22,17 @@ model User {
   password String
 }
 
-
-
 model favoriteRestaurant {
   id    String     @id @default(uuid())
   businessName String
   category String
   operationTime String
   address  String
+}
+
+model Restaurant {
+  id    String     @id @default(uuid())
+  category String
+  location String
+  limit String
 }
