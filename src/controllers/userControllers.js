@@ -3,6 +3,7 @@ const {
   loginQuery,
   getAllUser,
   getOneUser,
+  // getMe,
   findUserWithToken,
   destroyUser,
   alterUser,
@@ -37,6 +38,12 @@ const displayOne = async (req, res, next) => {
   const user = await getOneUser(req.params.id);
   res.send(user);
 };
+
+// const displayMe = async (req, res, next) => {
+//   console.log(req.params.id);
+//   const user = await getMe(req.params.id);
+//   res.send(user);
+// };
 
 const deleteUser = async (req, res, next) => {
   const userId = req.params.id;
@@ -97,6 +104,7 @@ module.exports = {
   login,
   displayAll,
   displayOne,
+  // displayMe,
   deleteUser,
   updateUser,
   favoriteRestaurant,
