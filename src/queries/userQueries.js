@@ -74,22 +74,28 @@ const getOneUser = async (userId) => {
   console.log(oneUser);
 };
 
-// const getMe = async (userId) => {
-//   let meUser;
+const getMe = async ({ id }) => {
+  let meUser;
 
-//   try {
-//    meUser = await prisma.user.findUnique({
-//     where:{
-//       id: userId,
-//     }
-//    });
+  try {
+    meUser = await prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
 
-//   } catch (error) {
-//     console.log(error);
-//   }
-//   return meUser;
-//   console.log(meUser)
-// };
+    if (!meUser) {
+      throw new Error("User not found");
+    }
+
+    console.log(meUser);
+
+    return meUser;
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    throw new Error("Error fetching user information");
+  }
+};
 
 const getAllUser = async () => {
   let allUsers;
@@ -202,7 +208,7 @@ module.exports = {
   loginQuery,
   getAllUser,
   getOneUser,
-  // getMe,
+  getMe,
   findUserWithToken,
   destroyUser,
   alterUser,

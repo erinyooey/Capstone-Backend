@@ -3,7 +3,7 @@ const {
   loginQuery,
   getAllUser,
   getOneUser,
-  // getMe,
+  getMe,
   findUserWithToken,
   destroyUser,
   alterUser,
@@ -39,11 +39,18 @@ const displayOne = async (req, res, next) => {
   res.send(user);
 };
 
-// const displayMe = async (req, res, next) => {
-//   console.log(req.params.id);
-//   const user = await getMe(req.params.id);
-//   res.send(user);
-// };
+const displayMe = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    console.log(id, "control");
+    const getMeResponse = await getMe({ id });
+    res.json(getMeResponse);
+  } catch (error) {
+    console.error(error);
+    res.status(401).send("Invalid login credentials.");
+  }
+};
 
 const deleteUser = async (req, res, next) => {
   const userId = req.params.id;
@@ -104,7 +111,7 @@ module.exports = {
   login,
   displayAll,
   displayOne,
-  // displayMe,
+  displayMe,
   deleteUser,
   updateUser,
   favoriteRestaurant,
