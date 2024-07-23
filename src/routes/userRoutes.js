@@ -1,11 +1,11 @@
 const { route } = require("../shared/shared");
-const { findUserWithToken } = require("../queries/userQueries");
+const { findUserWithToken, getMe } = require("../queries/userQueries");
 const {
   register,
   login,
   displayAll,
   displayOne,
-  // displayMe,
+  displayMe,
   deleteUser,
   updateUser,
   favoriteRestaurant,
@@ -28,7 +28,7 @@ route.delete("/:id/delete_user", isLoggedIn, deleteUser);
 
 route.get("/all_users", isLoggedIn, displayAll);
 route.get("/:id/user", isLoggedIn, displayOne);
-// route.get ("/:id/me", isLoggedIn, displayMe);
+route.get("/:id/me", isLoggedIn, displayMe);
 
 route.post("/:id/favorite_restaurant", isLoggedIn, favoriteRestaurant);
 route.delete(
