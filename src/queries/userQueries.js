@@ -161,47 +161,7 @@ const alterUser = async ({ id, firstName, lastName, password }) => {
   }
 };
 
-const favoriteRestaurantsQuery = async ({
-  businessName,
-  category,
-  operationTime,
-  address,
-}) => {
-  try {
-    const createFavoriteRestaurant = await prisma.favoriteRestaurant.create({
-      data: {
-        businessName,
-        category,
-        operationTime,
-        address,
-      },
-    });
 
-    return {
-      businessName: createFavoriteRestaurant.businessName,
-      category: createFavoriteRestaurant.category,
-      operationTime: createFavoriteRestaurant.operationTime,
-      address: createFavoriteRestaurant.address,
-    };
-  } catch (error) {
-    console.error("Error add restaurant", error);
-    throw error;
-  }
-};
-
-const destroyFavoriteRestaurant = async (id) => {
-  let deleteRestaurant;
-  try {
-    deleteRestaurant = await prisma.favoriteRestaurant.delete({
-      where: {
-        id: id,
-      },
-    });
-  } catch (error) {
-    console.log(error);
-  }
-  return deleteRestaurant;
-};
 
 module.exports = {
   registerQuery,
@@ -212,6 +172,4 @@ module.exports = {
   findUserWithToken,
   destroyUser,
   alterUser,
-  favoriteRestaurantsQuery,
-  destroyFavoriteRestaurant,
 };

@@ -1,4 +1,4 @@
-const { registerQuery } = require("../queries/userQueries");
+const { registerQuery, } = require("../queries/userQueries");
 const {
   loginQuery,
   getAllUser,
@@ -7,8 +7,6 @@ const {
   findUserWithToken,
   destroyUser,
   alterUser,
-  favoriteRestaurantsQuery,
-  destroyFavoriteRestaurant,
 } = require("../queries/userQueries");
 
 const register = async (req, res) => {
@@ -83,29 +81,6 @@ const updateUser = async (req, res, next) => {
   }
 };
 
-const favoriteRestaurant = async (req, res) => {
-  const { businessName, category, operationTime, address } = req.body;
-
-  try {
-    const favoriteRestaurantResponse = await favoriteRestaurantsQuery({
-      businessName,
-      category,
-      operationTime,
-      address,
-    });
-    res.json(favoriteRestaurantResponse);
-  } catch (error) {
-    console.error(error);
-    res.status(401).send("Invalid.");
-  }
-};
-
-const deleteFavoriteRestaurants = async (req, res, next) => {
-  const id = req.params.id;
-  const deleteFavoriteRestaurant = await destroyFavoriteRestaurant(id);
-  res.send(deleteFavoriteRestaurant);
-};
-
 module.exports = {
   register,
   login,
@@ -114,6 +89,4 @@ module.exports = {
   displayMe,
   deleteUser,
   updateUser,
-  favoriteRestaurant,
-  deleteFavoriteRestaurants,
 };

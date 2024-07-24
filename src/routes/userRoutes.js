@@ -30,12 +30,6 @@ route.get("/all_users", isLoggedIn, displayAll);
 route.get("/:id/user", isLoggedIn, displayOne);
 route.get("/:id/me", isLoggedIn, displayMe);
 
-route.post("/:id/favorite_restaurant", isLoggedIn, favoriteRestaurant);
-route.delete(
-  "/:id/deleteFavoriteRestaurants/:id",
-  isLoggedIn,
-  deleteFavoriteRestaurants
-);
 
 module.exports = route;
 module.exports.isLoggedIn = isLoggedIn;
