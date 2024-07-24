@@ -161,8 +161,6 @@ const alterUser = async ({ id, firstName, lastName, password }) => {
   }
 };
 
-
-
 module.exports = {
   registerQuery,
   loginQuery,

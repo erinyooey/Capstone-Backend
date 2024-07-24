@@ -2,7 +2,8 @@ const { route } = require("../shared/shared");
 const {
   favoriteRestaurant,
   deleteFavoriteRestaurants,
-  displayAllRestaurants
+  displayAllRestaurants,
+  updateRestaurants,
 } = require("../controllers/userControllers");
 
 const isLoggedIn = async (req, res, next) => {
@@ -22,7 +23,7 @@ route.delete(
 );
 
 route.post("/all_restaurants", isLoggedIn, displayAllRestaurants)
-// route.put(":id"/)
+// route.put(":id/..", isLoggedIn, updateRestaurants)
 
 module.exports = route;
 module.exports.isLoggedIn = isLoggedIn;

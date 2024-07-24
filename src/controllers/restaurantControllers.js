@@ -1,7 +1,8 @@
 const {
   favoriteRestaurantsQuery,
   destroyFavoriteRestaurant,
-  updateRestaurant,
+  displayAllRestaurants,
+  updateRestaurants,
 } = require("../queries/userQueries");
 
 const favoriteRestaurant = async (req, res) => {
@@ -36,11 +37,11 @@ const displayAllRestaurants = async (req, res, next) => {
 
 // update restaurant endpoint
 
-const updateRestaurant = async (req, res, next) => {
+const updateRestaurants = async (req, res, next) => {
   const restaurantId = req.params.id;
 
   try {
-    const { businessName, category, operationTime, address } = req.body;
+    const { category, location, limit } = req.body;
 
     const changedRestaurant = await alterRestaurant({
       id: restaurantId,
@@ -58,5 +59,6 @@ const updateRestaurant = async (req, res, next) => {
 module.exports = {
   favoriteRestaurant,
   deleteFavoriteRestaurants,
-  updateRestaurant,
+  displayAllRestaurants,
+  updateRestaurants,
 };

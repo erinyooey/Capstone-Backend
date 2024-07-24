@@ -73,5 +73,6 @@ const alterRestaurant = async (id, body) => {
 module.exports = {
   favoriteRestaurantsQuery,
   destroyFavoriteRestaurant,
+  getAllRestaurant,
   alterRestaurant,
 };
