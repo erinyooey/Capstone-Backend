@@ -35,4 +35,14 @@ model Restaurant {
   category String
   location String
   limit String
+  reviews Review[]
+}
+
+//fk in review table to restaurant
+model Review {
+  id String @id @default(uuid())
+  writtenReview String
+  rating Int 
+  restaurantId String
+  restaurant Restaurant @relation(fields: [restaurantId], references: [id])
 }
