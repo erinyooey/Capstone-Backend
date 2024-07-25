@@ -24,7 +24,7 @@ route.delete(
 );
 
 route.get("/:id/allFavoriteRestaurants", isLoggedIn, displayAllFavoriteRestaurants)
-route.put(":id/updateFavoriteRestaurants/:id", isLoggedIn, updateFavoriteRestaurants)
+route.put("/:id/updateFavoriteRestaurants/:id", isLoggedIn, updateFavoriteRestaurants)
 
 module.exports = route;
 module.exports.isLoggedIn = isLoggedIn;

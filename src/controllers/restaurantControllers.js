@@ -41,19 +41,16 @@ const updateFavoriteRestaurants = async (req, res, next) => {
   const restaurantId = req.params.id;
 
   try {
-    const { businessName, category, operationTime, address } = req.body;
-
-    const changedFavoriteRestaurant = await alterFavoriteRestaurant({
-      id: restaurantId,
-      businessName: businessName,
-      category: category,
-      operationTime: operationTime,
-      address: address,
-    });
+    const changedFavoriteRestaurant = await alterFavoriteRestaurant(
+      restaurantId,
+      req.body
+    );
     res.json(changedFavoriteRestaurant);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Failed to update favorite restaurant info" });
+    res
+      .status(500)
+      .json({ error: "Failed to update favorite restaurant info" });
   }
 };
 
