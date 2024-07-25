@@ -48,27 +48,29 @@ const destroyFavoriteRestaurant = async (id) => {
 
 // display all restaurant
 
-const getAllRestaurant = async () => {
-  const restaurants = await prisma.restaurant.findMany();
-  return restaurants;
+const getAllFavoriteRestaurant = async () => {
+  const favoriteRestaurants = await prisma.favoriteRestaurant.findMany();
+  return favoriteRestaurants;
 };
 
 // update restaurant endpoint WIP
 
-const alterRestaurant = async (id, body) => {
+const alterFavoriteRestaurant = async (id, body) => {
   try {
-    const changedRestaurant = await prisma.Restaurant.update({
+    const {businessName, category, operationTime, address} = body;
+    const changedFavoriteRestaurant = await prisma.favoriteRestaurant.update({
       where: { id },
       data: {
         id,
-        castegory: category,
-        location: location,
-        limit: limit,
+        businessName: businessName,
+        category: category,
+        operationTime: operationTime,
+        address: address,
       },
     });
-    return changedRestaurant;
+    return changedFavoriteRestaurant;
   } catch (error) {
-    console.error("Error updating restaurant:", error);
+    console.error("Error updating favorite restaurant:", error);
     throw error;
   }
 };
@@ -76,6 +78,6 @@ const alterRestaurant = async (id, body) => {
 module.exports = {
   favoriteRestaurantsQuery,
   destroyFavoriteRestaurant,
-  getAllRestaurant,
-  alterRestaurant,
+  getAllFavoriteRestaurant,
+  alterFavoriteRestaurant,
 };

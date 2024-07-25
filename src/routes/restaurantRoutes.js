@@ -1,10 +1,11 @@
 const { route } = require("../shared/shared");
+const { findUserWithToken, getMe } = require("../queries/userQueries");
 const {
   favoriteRestaurant,
   deleteFavoriteRestaurants,
-  displayAllRestaurants,
-  updateRestaurants,
-} = require("../controllers/userControllers");
+  displayAllFavoriteRestaurants,
+  updateFavoriteRestaurants,
+} = require("../controllers/restaurantControllers");
 
 const isLoggedIn = async (req, res, next) => {
   try {
@@ -22,8 +23,8 @@ route.delete(
   deleteFavoriteRestaurants
 );
 
-route.post("/all_restaurants", isLoggedIn, displayAllRestaurants)
-// route.put(":id/..", isLoggedIn, updateRestaurants)
+route.get("/:id/allFavoriteRestaurants", isLoggedIn, displayAllFavoriteRestaurants)
+route.put(":id/updateFavoriteRestaurants/:id", isLoggedIn, updateFavoriteRestaurants)
 
 module.exports = route;
 module.exports.isLoggedIn = isLoggedIn;
