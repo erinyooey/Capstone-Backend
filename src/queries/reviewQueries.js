@@ -1,5 +1,8 @@
 const { prisma, jwt } = require("../shared/shared");
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET = process.env.JWT_SECRET || 'shhh';
+if(JWT_SECRET === 'shhh'){
+    console.log('SET JWT ENVIRONMENT VARIABLE IN PRODUCTION')
+}
 const {findUserWithToken} = require("./userQueries")
 
 const createReview = async ({writtenReview, rating, restaurantId}, authorizationHeader) => {
@@ -15,7 +18,7 @@ const createReview = async ({writtenReview, rating, restaurantId}, authorization
             writtenReview,
             rating,
             restaurantId,
-            userId: user.id
+            userId: user.id // associate the review with the user who created it
         }
     })
     return review
