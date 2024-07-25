@@ -8,8 +8,6 @@ const {
   displayMe,
   deleteUser,
   updateUser,
-  favoriteRestaurant,
-  deleteFavoriteRestaurants,
 } = require("../controllers/userControllers");
 
 const isLoggedIn = async (req, res, next) => {
