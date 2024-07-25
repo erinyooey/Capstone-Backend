@@ -4,7 +4,7 @@ const {
   favoriteRestaurant,
   deleteFavoriteRestaurants,
   displayAllFavoriteRestaurants,
-  // updateRestaurants,
+  updateFavoriteRestaurants,
 } = require("../controllers/restaurantControllers");
 
 const isLoggedIn = async (req, res, next) => {
@@ -24,7 +24,7 @@ route.delete(
 );
 
 route.get("/:id/allFavoriteRestaurants", isLoggedIn, displayAllFavoriteRestaurants)
-// route.put(":id/..", isLoggedIn, updateRestaurants)
+route.put(":id/updateFavoriteRestaurants/:id", isLoggedIn, updateFavoriteRestaurants)
 
 module.exports = route;
 module.exports.isLoggedIn = isLoggedIn;
