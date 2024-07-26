@@ -1,5 +1,5 @@
 const { route } = require("../shared/shared");
-const { findUserWithToken, getMe } = require("../queries/userQueries");
+const { findUserWithToken } = require("../queries/userQueries");
 const {
   addRestaurant,
   deleteRestaurants,
@@ -15,6 +15,7 @@ const isLoggedIn = async (req, res, next) => {
     next(error);
   }
 };
+
 
 route.post("/:id/addRestaurant", isLoggedIn, addRestaurant);
 route.get("/:id/allRestaurants", isLoggedIn, displayAllRestaurants);
