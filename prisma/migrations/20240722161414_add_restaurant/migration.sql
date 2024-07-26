@@ -1,6 +1,7 @@
 -- CreateTable
 CREATE TABLE "Restaurant" (
     "id" TEXT NOT NULL,
+    "businessName" TEXT NOT NULL,
     "category" TEXT NOT NULL,
     "location" TEXT NOT NULL,
     "limit" TEXT NOT NULL,

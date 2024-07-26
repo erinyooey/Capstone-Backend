@@ -11,8 +11,8 @@ app.use("/api/user", userRoutes);
 const restaurantRoutes = require("../src/routes/restaurantRoutes");
 app.use("/api/restaurant", restaurantRoutes);
 
-const reviewRoutes = require("../src/routes/reviewRoutes")
-app.use("/api", reviewRoutes)
+const favoriteRestaurantRoutes = require("../src/routes/favoriteRestaurantRoutes");
+app.use("/api/favoriteRestaurant", favoriteRestaurantRoutes);
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
