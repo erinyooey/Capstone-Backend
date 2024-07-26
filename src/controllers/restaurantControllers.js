@@ -1,65 +1,67 @@
 const {
-  favoriteRestaurantsQuery,
-  destroyFavoriteRestaurant,
-  getAllFavoriteRestaurant,
-  alterFavoriteRestaurant,
-} = require("../queries/restaurantQueries");
+    restaurantsQuery,
+    destroyRestaurant,
+    getAllRestaurant,
+    alterRestaurant,
+  } = require("../queries/restaurantQueries");
 
-const favoriteRestaurant = async (req, res) => {
-  const { businessName, category, operationTime, address } = req.body;
+  // add restaurant endpoint
 
-  try {
-    const favoriteRestaurantResponse = await favoriteRestaurantsQuery({
-      businessName,
-      category,
-      operationTime,
-      address,
-    });
-    res.json(favoriteRestaurantResponse);
-  } catch (error) {
-    console.error(error);
-    res.status(401).send("Invalid.");
-  }
-};
+  const addRestaurant = async (req, res) => {
+    const { businessName, category, location, limit } = req.body;
+  
+    try {
+      const restaurantResponse = await restaurantsQuery({
+        businessName,
+        category,
+        location,
+        limit,
+      });
+      res.json(restaurantResponse);
+    } catch (error) {
+      console.error(error);
+      res.status(401).send("Invalid.");
+    }
+  };
 
-const deleteFavoriteRestaurants = async (req, res, next) => {
-  const id = req.params.id;
-  const deleteFavoriteRestaurant = await destroyFavoriteRestaurant(id);
-  res.send(deleteFavoriteRestaurant);
-};
+  // display all restaurants
 
-// display all restaurant
+  const displayAllRestaurants = async (req, res, next) => {
+    const restaurants = await getAllRestaurant();
+    res.send(restaurants);
+  };
 
-const displayAllFavoriteRestaurants = async (req, res, next) => {
-  const restaurants = await getAllFavoriteRestaurant();
-  res.send(restaurants);
-};
+  // delete restaurant
 
-// update restaurant endpoint
+  const deleteRestaurants = async (req, res, next) => {
+    const id = req.params.id;
+    const deleteRestaurant = await destroyRestaurant(id);
+    res.send(deleteRestaurant);
+  };
 
-const updateFavoriteRestaurants = async (req, res, next) => {
-  const restaurantId = req.params.id;
+  //update restaurant
 
-  try {
-    const { businessName, category, operationTime, address } = req.body;
+  const updateRestaurants = async (req, res, next) => {
+    const restaurantId = req.params.id;
+  
+    try {
+      const changedRestaurant = await alterRestaurant(
+        restaurantId,
+        req.body
+      );
+      res.json(changedRestaurant);
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .json({ error: "Failed to update favorite restaurant info" });
+    }
+  };
+  
 
-    const changedFavoriteRestaurant = await alterFavoriteRestaurant({
-      id: restaurantId,
-      businessName: businessName,
-      category: category,
-      operationTime: operationTime,
-      address: address,
-    });
-    res.json(changedFavoriteRestaurant);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Failed to update favorite restaurant info" });
-  }
-};
-
-module.exports = {
-  favoriteRestaurant,
-  deleteFavoriteRestaurants,
-  displayAllFavoriteRestaurants,
-  updateFavoriteRestaurants,
-};
+  module.exports = {
+    addRestaurant,
+    deleteRestaurants,
+    displayAllRestaurants,
+    updateRestaurants,
+  };

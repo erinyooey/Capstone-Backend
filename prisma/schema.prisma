@@ -23,14 +23,14 @@ model User {
   role Role @default(USER)
   reviews Review[]
   comments Comment[]
-  profile Profile?
+  profile Profile[]
 }
 
 model Profile {
   id String @id @default(uuid())
   bio String
   user User @relation(fields: [userId], references: [id])
-  userId Int @unique
+  userId String @unique
 }
 
 model favoriteRestaurant {
@@ -43,6 +43,7 @@ model favoriteRestaurant {
 
 model Restaurant {
   id    String     @id @default(uuid())
+  businessName String
   category String
   location String
   limit String

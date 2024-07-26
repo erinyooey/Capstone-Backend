@@ -1,27 +1,27 @@
 const { bcrypt, prisma, jwt } = require("../shared/shared");
 const JWT_SECRET = process.env.JWT_SECRET;
 
-const favoriteRestaurantsQuery = async ({
+const restaurantsQuery = async ({
   businessName,
   category,
-  operationTime,
-  address,
+  location,
+  limit,
 }) => {
   try {
-    const createFavoriteRestaurant = await prisma.favoriteRestaurant.create({
+    const createRestaurant = await prisma.restaurant.create({
       data: {
         businessName,
         category,
-        operationTime,
-        address,
+        location,
+        limit,
       },
     });
 
     return {
-      businessName: createFavoriteRestaurant.businessName,
-      category: createFavoriteRestaurant.category,
-      operationTime: createFavoriteRestaurant.operationTime,
-      address: createFavoriteRestaurant.address,
+      businessName: createRestaurant.businessName,
+      category: createRestaurant.category,
+      location: createRestaurant.location,
+      limit: createRestaurant.limit,
     };
   } catch (error) {
     console.error("Error add restaurant", error);
@@ -29,10 +29,19 @@ const favoriteRestaurantsQuery = async ({
   }
 };
 
-const destroyFavoriteRestaurant = async (id) => {
+// display all restaurant
+
+const getAllRestaurant = async () => {
+  const Restaurants = await prisma.Restaurant.findMany();
+  return Restaurants;
+};
+
+// delete restaurant
+
+const destroyRestaurant = async (id) => {
   let deleteRestaurant;
   try {
-    deleteRestaurant = await prisma.favoriteRestaurant.delete({
+    deleteRestaurant = await prisma.Restaurant.delete({
       where: {
         id: id,
       },
@@ -43,38 +52,31 @@ const destroyFavoriteRestaurant = async (id) => {
   return deleteRestaurant;
 };
 
-// display all restaurant
+// update restaurant
 
-const getAllFavoriteRestaurant = async () => {
-  const favoriteRestaurants = await prisma.favoriteRestaurant.findMany();
-  return favoriteRestaurants;
-};
-
-// update restaurant endpoint WIP
-
-const alterFavoriteRestaurant = async (id, body) => {
+const alterRestaurant = async (id, body) => {
   try {
-    const {businessName, category, operationTime, address} = body;
-    const changedFavoriteRestaurant = await prisma.favoriteRestaurant.update({
+    const { businessName, category, location, limit } = body;
+    const changedRestaurant = await prisma.Restaurant.update({
       where: { id },
       data: {
         id,
         businessName: businessName,
         category: category,
-        operationTime: operationTime,
-        address: address,
+        location: location,
+        limit: limit,
       },
     });
-    return changedFavoriteRestaurant;
+    return changedRestaurant;
   } catch (error) {
-    console.error("Error updating favorite restaurant:", error);
+    console.error("Error updating restaurant:", error);
     throw error;
   }
 };
 
 module.exports = {
-  favoriteRestaurantsQuery,
-  destroyFavoriteRestaurant,
-  getAllFavoriteRestaurant,
-  alterFavoriteRestaurant,
+  restaurantsQuery,
+  destroyRestaurant,
+  getAllRestaurant,
+  alterRestaurant,
 };
