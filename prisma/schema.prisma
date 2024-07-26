@@ -18,21 +18,6 @@ model User {
   id        String     @id @default(uuid())
   firstName String
   lastName  String
-<<<<<<< HEAD
-  email String  @unique
-  password String
-  role Role @default(USER)
-  reviews Review[]
-  comments Comment[]
-  profile Profile[]
-}
-
-model Profile {
-  id String @id @default(uuid())
-  bio String
-  user User @relation(fields: [userId], references: [id])
-  userId String @unique
-=======
   email     String  @unique
   password  String
   role      Role @default(USER)
@@ -46,7 +31,6 @@ model Profile {
   bio     String
   user    User @relation(fields: [userId], references: [id])
   userId  String @unique
->>>>>>> b74fc49f84daa3ecce24da8395ea06ca0a3377d3
 }
 
 model favoriteRestaurant {
@@ -58,16 +42,8 @@ model favoriteRestaurant {
 }
 
 model Restaurant {
-<<<<<<< HEAD
-  id    String     @id @default(uuid())
-  businessName String
-  category String
-  location String
-  limit String
-  reviews Review[]
-=======
   id            String     @id @default(uuid())
-  name          String
+  businessName String
   category      String
   address       String
   operationTime String
@@ -75,7 +51,6 @@ model Restaurant {
   limit         String
   pictureUrl    String
   reviews       Review[]
->>>>>>> b74fc49f84daa3ecce24da8395ea06ca0a3377d3
 }
 
 model Review {
