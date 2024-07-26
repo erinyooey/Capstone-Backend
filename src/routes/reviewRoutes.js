@@ -11,10 +11,10 @@ const {findUserWithToken} = require("../queries/userQueries")
 
 const isLoggedIn = async (req, res, next) => {
     try {
-      req.user = await findUserWithToken(req.headers.authorization);
-      next();
+        req.user = await findUserWithToken(req.headers.authorization);
+        next();
     } catch (error) {
-      next(error);
+        next(error);
     }
 };
 
