@@ -41,6 +41,7 @@ const {
 
   //update restaurant
 
+<<<<<<< HEAD
   const updateRestaurants = async (req, res, next) => {
     const restaurantId = req.params.id;
   
@@ -65,3 +66,25 @@ const {
     displayAllRestaurants,
     updateRestaurants,
   };
+=======
+  try {
+    const changedFavoriteRestaurant = await alterFavoriteRestaurant(
+      restaurantId,
+      req.body
+    );
+    res.json(changedFavoriteRestaurant);
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ error: "Failed to update favorite restaurant info" });
+  }
+};
+
+module.exports = {
+  favoriteRestaurant,
+  deleteFavoriteRestaurants,
+  displayAllFavoriteRestaurants,
+  updateFavoriteRestaurants,
+};
+>>>>>>> b74fc49f84daa3ecce24da8395ea06ca0a3377d3

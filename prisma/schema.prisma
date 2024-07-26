@@ -15,9 +15,10 @@ datasource db {
 
 
 model User {
-  id    String     @id @default(uuid())
+  id        String     @id @default(uuid())
   firstName String
   lastName  String
+<<<<<<< HEAD
   email String  @unique
   password String
   role Role @default(USER)
@@ -31,43 +32,70 @@ model Profile {
   bio String
   user User @relation(fields: [userId], references: [id])
   userId String @unique
+=======
+  email     String  @unique
+  password  String
+  role      Role @default(USER)
+  reviews   Review[]
+  comments  Comment[]
+  profile   Profile?
+}
+
+model Profile {
+  id      String @id @default(uuid())
+  bio     String
+  user    User @relation(fields: [userId], references: [id])
+  userId  String @unique
+>>>>>>> b74fc49f84daa3ecce24da8395ea06ca0a3377d3
 }
 
 model favoriteRestaurant {
-  id    String     @id @default(uuid())
-  businessName String
-  category String
+  id            String     @id @default(uuid())
+  businessName  String
+  category      String
   operationTime String
-  address  String
+  address       String
 }
 
 model Restaurant {
+<<<<<<< HEAD
   id    String     @id @default(uuid())
   businessName String
   category String
   location String
   limit String
   reviews Review[]
+=======
+  id            String     @id @default(uuid())
+  name          String
+  category      String
+  address       String
+  operationTime String
+  location      String
+  limit         String
+  pictureUrl    String
+  reviews       Review[]
+>>>>>>> b74fc49f84daa3ecce24da8395ea06ca0a3377d3
 }
 
 model Review {
-  id String @id @default(uuid())
+  id            String @id @default(uuid())
   writtenReview String
-  rating Int 
-  restaurantId String
-  userId String
-  restaurant Restaurant @relation(fields: [restaurantId], references: [id])
-  user User @relation(fields: [userId], references: [id])
-  comments Comment[]
+  rating        Int 
+  restaurantId  String
+  userId        String
+  restaurant    Restaurant @relation(fields: [restaurantId], references: [id])
+  user          User @relation(fields: [userId], references: [id])
+  comments      Comment[]
 }
 
 model Comment {
-  id String @id @default(uuid())
+  id             String @id @default(uuid())
   writtenComment String
-  userId String
-  reviewId String
-  user User @relation(fields: [userId], references: [id])
-  review Review @relation(fields: [reviewId], references: [id])
+  userId         String
+  reviewId       String
+  user           User @relation(fields: [userId], references: [id])
+  review         Review @relation(fields: [reviewId], references: [id])
 }
 
 enum Role {
