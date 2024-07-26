@@ -1,5 +1,8 @@
 const { bcrypt, prisma, jwt } = require("../shared/shared");
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET = process.env.JWT_SECRET || 'shhh';
+if(JWT_SECRET === 'shhh'){
+  console.log('SET JWT ENVIRONMENT VARIABLE IN PRODUCTION')
+}
 
 const registerQuery = async ({ firstName, lastName, email, password }) => {
   const hashPassword = await bcrypt.hash(password, 10);
@@ -70,8 +73,8 @@ const getOneUser = async (userId) => {
   } catch (error) {
     console.log(error);
   }
-  return oneUser;
   console.log(oneUser);
+  return oneUser;
 };
 
 const getMe = async ({ id }) => {
