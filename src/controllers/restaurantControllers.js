@@ -11,12 +11,7 @@ const {
     const { businessName, category, location, limit } = req.body;
   
     try {
-      const restaurantResponse = await restaurantsQuery({
-        businessName,
-        category,
-        location,
-        limit,
-      });
+      const restaurantResponse = await restaurantsQuery(req.body);
       res.json(restaurantResponse);
     } catch (error) {
       console.error(error);
