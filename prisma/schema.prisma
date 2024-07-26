@@ -42,12 +42,15 @@ model favoriteRestaurant {
 }
 
 model Restaurant {
-  id        String     @id @default(uuid())
-  name      String
-  category  String
-  location  String
-  limit     String
-  reviews   Review[]
+  id            String     @id @default(uuid())
+  name          String
+  category      String
+  address       String
+  operationTime String
+  location      String
+  limit         String
+  pictureUrl    String
+  reviews       Review[]
 }
 
 model Review {

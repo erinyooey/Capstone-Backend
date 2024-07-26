@@ -5,7 +5,7 @@ if(JWT_SECRET === 'shhh'){
 }
 const {findUserWithToken} = require("./userQueries")
 
-const createComment = async() => {
+const createComment = async({writtenComment}) => {
 
 }
 
