@@ -1,14 +1,12 @@
 const { prisma, jwt } = require("../shared/shared");
-const JWT_SECRET = process.env.JWT_SECRET || 'shhh';
-if(JWT_SECRET === 'shhh'){
-    console.log('SET JWT ENVIRONMENT VARIABLE IN PRODUCTION')
+const JWT_SECRET = process.env.JWT_SECRET || "shhh";
+if (JWT_SECRET === "shhh") {
+  console.log("SET JWT ENVIRONMENT VARIABLE IN PRODUCTION");
 }
-const {findUserWithToken} = require("./userQueries")
+const { findUserWithToken } = require("./userQueries");
 
-const createComment = async({writtenComment}) => {
-
-}
+const createComment = async ({ writtenComment }) => {};
 
 module.exports = {
-    createComment
-}
+  createComment,
+};

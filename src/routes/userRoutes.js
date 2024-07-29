@@ -28,6 +28,5 @@ route.get("/all_users", isLoggedIn, displayAll);
 route.get("/:id/user", isLoggedIn, displayOne);
 route.get("/:id/me", isLoggedIn, displayMe);
 
-
 module.exports = route;
 module.exports.isLoggedIn = isLoggedIn;

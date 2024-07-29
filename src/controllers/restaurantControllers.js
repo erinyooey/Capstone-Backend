@@ -8,7 +8,7 @@ const {
   // add restaurant endpoint
 
   const addRestaurant = async (req, res) => {
-    const { businessName, category, location, limit } = req.body;
+    const { businessName, category, address, limit } = req.body;
   
     try {
       const restaurantResponse = await restaurantsQuery(req.body);

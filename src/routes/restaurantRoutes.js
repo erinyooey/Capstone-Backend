@@ -16,7 +16,6 @@ const isLoggedIn = async (req, res, next) => {
   }
 };
 
-
 route.post("/:id/addRestaurant", isLoggedIn, addRestaurant);
 route.get("/:id/allRestaurants", isLoggedIn, displayAllRestaurants);
 route.delete("/:id/deleteRestaurants/:id", isLoggedIn, deleteRestaurants);

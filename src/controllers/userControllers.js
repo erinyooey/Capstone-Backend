@@ -1,4 +1,4 @@
-const { registerQuery, } = require("../queries/userQueries");
+const { registerQuery } = require("../queries/userQueries");
 const {
   loginQuery,
   getAllUser,
