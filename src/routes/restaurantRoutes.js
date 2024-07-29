@@ -1,5 +1,5 @@
 const { route } = require("../shared/shared");
-const { findUserWithToken, getMe } = require("../queries/userQueries");
+const { findUserWithToken } = require("../queries/userQueries");
 const {
   addRestaurant,
   deleteRestaurants,

@@ -7,24 +7,24 @@ if(JWT_SECRET === 'shhh'){
 const restaurantsQuery = async ({
   businessName,
   category,
-  location,
-  limit,
+  address,
+  operationTime
 }) => {
   try {
     const createRestaurant = await prisma.restaurant.create({
       data: {
         businessName,
         category,
-        location,
-        limit,
+        address,
+        operationTime
       },
     });
 
     return {
       businessName: createRestaurant.businessName,
       category: createRestaurant.category,
-      location: createRestaurant.location,
-      limit: createRestaurant.limit,
+      address: createRestaurant.address,
+      operationTime: createRestaurant.operationTime
     };
   } catch (error) {
     console.error("Error add restaurant", error);
@@ -59,15 +59,15 @@ const destroyRestaurant = async (id) => {
 
 const alterRestaurant = async (id, body) => {
   try {
-    const { businessName, category, location, limit } = body;
+    const { businessName, category, address, operationTime } = body;
     const changedRestaurant = await prisma.Restaurant.update({
       where: { id },
       data: {
         id,
         businessName: businessName,
         category: category,
-        location: location,
-        limit: limit,
+        address: address,
+        operationTime: operationTime,
       },
     });
     return changedRestaurant;

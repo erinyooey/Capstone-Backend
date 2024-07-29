@@ -78,5 +78,4 @@ module.exports = {
     updatedReviewController,
     deleteReviewController,
     getReviewsByUserController
-
 }

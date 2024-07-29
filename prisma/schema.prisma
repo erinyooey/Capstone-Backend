@@ -43,20 +43,17 @@ model favoriteRestaurant {
 
 model Restaurant {
   id            String     @id @default(uuid())
-  businessName String
+  businessName  String
   category      String
   address       String
   operationTime String
-  location      String
-  limit         String
-  pictureUrl    String
   reviews       Review[]
 }
 
 model Review {
   id            String @id @default(uuid())
   writtenReview String
-  rating        Int 
+  rating        Int
   restaurantId  String
   userId        String
   restaurant    Restaurant @relation(fields: [restaurantId], references: [id])
