@@ -64,7 +64,7 @@ const deleteReviewController = async(req, res) => {
 const getReviewsByUserController = async(req, res) => {
     try {
         const userId = req.params.userId;
-        const reviews = await getReviewById(userId)
+        const reviews = await getReviewsByUser(userId)
         res.status(200).json(reviews)
     } catch (error) {
         res.status(500).json({error: "Failed to get reviews by user"})

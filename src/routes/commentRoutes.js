@@ -1,24 +1,31 @@
 const { route } = require("../shared/shared");
 const { findUserWithToken } = require("../queries/userQueries");
-const {} = require("../controllers/commentControllers");
+const {
+  getAllCommentsController,
+  getCommentsByReviewIdController,
+  getCommentsByUserIdController,
+  createCommentController,
+  updateCommentController,
+  deleteCommentController
+} = require("../controllers/commentControllers");
 
 const isLoggedIn = async (req, res, next) => {
   try {
     req.user = await findUserWithToken(req.headers.authorization);
     next();
   } catch (error) {
+    res.status(401).json({error: "Invalid user token"})
     next(error);
   }
 };
 
-route.post("/");
-route.post("/");
-route.put("/", isLoggedIn);
-route.delete("/:id/delete_user", isLoggedIn);
+route.post("/comments", isLoggedIn, createCommentController);
+route.put("/:commentId", isLoggedIn, updateCommentController);
+route.delete("/:commentId", isLoggedIn, deleteCommentController);
 
-route.get("/all_users", isLoggedIn);
-route.get("/:id/user", isLoggedIn);
-route.get("/:id/me", isLoggedIn);
+route.get("/comments", getAllCommentsController);
+route.get("/review/:reviewId", getCommentsByReviewIdController);
+route.get("/user/:userId", isLoggedIn), getCommentsByUserIdController;
 
 module.exports = route;
 module.exports.isLoggedIn = isLoggedIn;

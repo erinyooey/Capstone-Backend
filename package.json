@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "seed": "node server/db.js",
+    "seed": "node prisma/seed.js",
     "dev": "nodemon server/index.js"
   },
   "keywords": [],
@@ -23,6 +23,9 @@
     "pg": "^8.12.0",
     "prisma": "^5.17.0",
     "uuid": "^10.0.0"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
   },
    "devDependencies": {
     "prisma": "^5.16.2"
