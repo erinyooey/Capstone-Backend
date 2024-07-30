@@ -12,14 +12,23 @@ const isLoggedIn = async (req, res, next) => {
     req.user = await findUserWithToken(req.headers.authorization);
     next();
   } catch (error) {
+    res.status(401).json({message: "Unauthorized"})
     next(error);
   }
 };
 
-route.post("/:id/favorite_restaurant", isLoggedIn, favoriteRestaurant);
+const isAdmin = (req, res, next) => {
+  if(req.user.role !== 'ADMIN'){
+    return res.status(403).json({message: "Admins only"})
+  }
+  next()
+}
+
+route.post("/:id/favorite_restaurant", isLoggedIn, isAdmin, favoriteRestaurant);
 route.delete(
-  "/:id/deleteFavoriteRestaurants/:id",
+  "/:favoriteId",
   isLoggedIn,
+  isAdmin,
   deleteFavoriteRestaurants
 );
 
@@ -29,10 +38,12 @@ route.get(
   displayAllFavoriteRestaurants
 );
 route.put(
-  "/:id/updateFavoriteRestaurants/:id",
+  "/:favoriteId",
   isLoggedIn,
+  isAdmin,
   updateFavoriteRestaurants
 );
 
 module.exports = route;
 module.exports.isLoggedIn = isLoggedIn;
+module.exports.isAdmin = isAdmin
