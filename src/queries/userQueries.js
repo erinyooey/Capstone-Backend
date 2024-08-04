@@ -18,6 +18,7 @@ const registerQuery = async ({ firstName, lastName, email, password }) => {
   const token = jwt.sign(
     {
       id: registerUser.id,
+      role: registerUser.role
     },
     JWT_SECRET,
     {
@@ -38,12 +39,13 @@ const loginQuery = async ({ email, password }) => {
     const userLogin = await prisma.user.findUnique({
       where: { email },
     });
-    if (!userLogin || !bcrypt.compareSync(password, userLogin.password)) {
+    if (!userLogin || !bcrypt.compare(password, userLogin.password)) {
       return "Invalid login credentials.";
     }
     const token = jwt.sign(
       {
         id: userLogin.id,
+        role: userLogin.role
       },
       JWT_SECRET,
       {
@@ -59,6 +61,7 @@ const loginQuery = async ({ email, password }) => {
     };
   } catch (error) {
     console.log(error);
+    return {error: "an error occurred during login"}
   }
 };
 
@@ -114,11 +117,21 @@ const getAllUser = async () => {
 };
 
 const findUserWithToken = async (authorizationHeader) => {
+  console.log("authorization header: ", authorizationHeader)
   if (!authorizationHeader || !authorizationHeader.startsWith("Bearer ")) {
     throw new Error("Authorization header is missing or malformed");
   }
   const token = authorizationHeader.split(" ")[1];
-  const decoded = jwt.verify(token, JWT_SECRET);
+  console.log("Token: ", token)
+  let decoded
+  try {
+    decoded = jwt.verify(token, JWT_SECRET);
+    console.log("decoded token", decoded)
+  } catch (error) {
+    throw new Error("Invalid token")
+  }
+
+
   const user = await prisma.user.findUnique({
     where: {
       id: decoded.id,

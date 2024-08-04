@@ -11,9 +11,9 @@ app.use("/api/restaurant", restaurantRoutes);
 
 app.use("/api/favoriteRestaurant", favoriteRestaurantRoutes);
 
-app.use("/api", reviewRoutes)
+app.use("/api/reviews", reviewRoutes)
 
-app.use("/api", commentRoutes)
+app.use("/api/comments", commentRoutes)
 
 const PORT = process.env.PORT || 3000;
 

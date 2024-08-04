@@ -15,13 +15,13 @@ const isLoggedIn = async (req, res, next) => {
     req.user = await findUserWithToken(req.headers.authorization);
     next();
   } catch (error) {
+    console.error("error in loggedin middleware: ", error.message)
     res.status(401).json({message: "Unauthorized"})
-    next(error);
   }
 };
 
 const isAdmin = (req, res, next) => {
-  if(req.user.role !== 'ADMIN'){
+  if(!req.user || req.user.role !== 'ADMIN'){
     return res.status(403).json({message: "Admins only"})
   }
   next()
@@ -32,9 +32,9 @@ route.post("/login", login);
 route.put("/:id/change", isLoggedIn, updateUser);
 route.delete("/:id/delete_user", isLoggedIn, deleteUser);
 
-route.get("/all_users", isLoggedIn, displayAll);
-route.get("/:id/user", isLoggedIn, displayOne);
-route.get("/:id/me", isLoggedIn, displayMe);
+route.get("/all_users", isAdmin, displayAll);
+route.get("/:id/user", isAdmin, displayOne);
+route.get("/:id/me", isAdmin, displayMe);
 
 module.exports = route;
 module.exports.isLoggedIn = isLoggedIn;

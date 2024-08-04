@@ -7,15 +7,6 @@ const {
   updateRestaurants,
 } = require("../controllers/restaurantControllers");
 
-const isLoggedIn = async (req, res, next) => {
-  try {
-    req.user = await findUserWithToken(req.headers.authorization);
-    next();
-  } catch (error) {
-    res.status(401).json({message: "Unauthorized"})
-    next(error);
-  }
-};
 
 const isAdmin = (req, res, next) => {
   if(req.user.role !== 'ADMIN'){
@@ -24,11 +15,10 @@ const isAdmin = (req, res, next) => {
   next()
 }
 
-route.post("/addRestaurant", isLoggedIn, isAdmin, addRestaurant);
+route.post("/addRestaurant", isAdmin, addRestaurant);
 route.get("/", displayAllRestaurants);
-route.delete("/remove/:id", isLoggedIn, isAdmin, deleteRestaurants);
-route.put("/change/:id", isLoggedIn, isAdmin, updateRestaurants);
+route.delete("/remove/:id", isAdmin, deleteRestaurants);
+route.put("/change/:id", isAdmin, updateRestaurants);
 
 module.exports = route;
-module.exports.isLoggedIn = isLoggedIn;
 module.exports.isAdmin = isAdmin

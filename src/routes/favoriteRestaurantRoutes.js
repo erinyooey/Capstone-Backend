@@ -17,33 +17,23 @@ const isLoggedIn = async (req, res, next) => {
   }
 };
 
-const isAdmin = (req, res, next) => {
-  if(req.user.role !== 'ADMIN'){
-    return res.status(403).json({message: "Admins only"})
-  }
-  next()
-}
-
-route.post("/:id/favorite_restaurant", isLoggedIn, isAdmin, favoriteRestaurant);
+route.post("/:id", isLoggedIn, favoriteRestaurant);
 route.delete(
   "/:favoriteId",
   isLoggedIn,
-  isAdmin,
   deleteFavoriteRestaurants
 );
 
 route.get(
-  "/:id/allFavoriteRestaurants",
+  "/:id",
   isLoggedIn,
   displayAllFavoriteRestaurants
 );
 route.put(
   "/:favoriteId",
   isLoggedIn,
-  isAdmin,
   updateFavoriteRestaurants
 );
 
 module.exports = route;
 module.exports.isLoggedIn = isLoggedIn;
-module.exports.isAdmin = isAdmin

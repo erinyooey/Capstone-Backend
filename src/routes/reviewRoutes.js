@@ -20,24 +20,17 @@ const isLoggedIn = async (req, res, next) => {
   }
 };
 
-const isAdmin = (req, res, next) => {
-  if(req.user.role !== 'ADMIN'){
-    return res.status(403).json({message: "Admins only"})
-  }
-  next()
-}
-
-route.post("/reviews", isLoggedIn, createReviewController);
-route.put("/reviews/:id", isLoggedIn, updatedReviewController);
-route.delete("/reviews/:id", isLoggedIn, deleteReviewController);
+route.post("/", isLoggedIn, createReviewController);
+route.put("/:id", isLoggedIn, updatedReviewController);
+route.delete("/:id", isLoggedIn, deleteReviewController);
 
 route.get(
-  "/restaurants/:restaurantId/reviews",
+  "/:restaurantId",
+  isLoggedIn,
   getReviewsForRestaurantController
 );
-route.get("/reviews/:id", getReviewByIdController);
-route.get("/users/:userId/reviews", getReviewsByUserController);
+route.get("/:id", isLoggedIn, getReviewByIdController);
+route.get("/:userId", isLoggedIn, getReviewsByUserController);
 
 module.exports = route;
 module.exports.isLoggedIn = isLoggedIn;
-module.exports.isAdmin = isAdmin
