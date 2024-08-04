@@ -21,8 +21,8 @@ model User {
   email     String  @unique
   password  String
   role      Role @default(USER)
-  reviews   Review[]
-  comments  Comment[]
+  reviews   Review?
+  comments  Comment?
   profile   Profile?
 }
 
@@ -55,7 +55,7 @@ model Review {
   writtenReview String
   rating        Int 
   restaurantId  String
-  userId        String
+  userId        String @unique
   restaurant    Restaurant @relation(fields: [restaurantId], references: [id])
   user          User @relation(fields: [userId], references: [id])
   comments      Comment[]
@@ -64,8 +64,8 @@ model Review {
 model Comment {
   id             String @id @default(uuid())
   writtenComment String
-  userId         String
-  reviewId       String
+  userId         String @unique
+  reviewId       String 
   user           User @relation(fields: [userId], references: [id])
   review         Review @relation(fields: [reviewId], references: [id])
 }

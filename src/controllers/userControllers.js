@@ -11,8 +11,12 @@ const {
 
 const register = async (req, res) => {
   console.log(req.body);
-  const token = await registerQuery(req.body);
-  res.send(token);
+  try {
+    const token = await registerQuery(req.body);
+    res.send(token)
+  } catch (error) {
+    res.status(500).send({error: "Registration failed"});
+  }
 };
 
 const login = async (req, res) => {
