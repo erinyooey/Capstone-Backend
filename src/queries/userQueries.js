@@ -11,6 +11,7 @@ const registerQuery = async ({ firstName, lastName, email, password }) => {
       firstName,
       lastName,
       email,
+      role: "USER",
       password: hashPassword,
     },
   });

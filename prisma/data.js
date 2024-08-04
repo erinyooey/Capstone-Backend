@@ -58,37 +58,37 @@ const review = [
     {
         writtenReview: "My favorite place!",
         rating: 5,
-        restaurantId: restaurant.id,
-        userId: user.id
+        restaurantId: "",
+        userId: ""
     },
     {
         writtenReview: "Not bad",
         rating: 3,
-        restaurantId: restaurant.id,
-        userId: user.id
+        restaurantId: "",
+        userId: ""
     },
     {
         writtenReview: "Service is horrible",
         rating: 1,
-        restaurantId: restaurant.id,
-        userId: user.id
+        restaurantId: "",
+        userId: ""
     }
 ]
 
 const comment = [
     {
-        reviewId: review.id,
-        userId: user.id,
+        reviewId: "",
+        userId: "",
         writtenComment: "I totally agree.",
     },
     {
-        reviewId: review.id,
-        userId: user.id,
+        reviewId: "",
+        userId: "",
         writtenComment: "I thought the food was great",
     },
     {
-        reviewId: review.id,
-        userId: user.id,
+        reviewId: "",
+        userId: "",
         writtenComment: "That's crazy!",
     }
 ]

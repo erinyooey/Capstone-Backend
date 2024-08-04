@@ -3,27 +3,33 @@ const {user, favoriteRestaurant, restaurant, review, comment} = require('./data'
 
 const load = async() => {
     try {
-        prisma.user.createMany({
+        await prisma.user.createMany({
             data: user
         })
         console.log("User database created")
 
-        prisma.favoriteRestaurant.createMany({
+        await prisma.favoriteRestaurant.createMany({
             data: favoriteRestaurant
         })
         console.log("Favorite restaurant database created")
 
-        prisma.restaurant.createMany({
+        await prisma.restaurant.createMany({
             data: restaurant
         })
         console.log("Restaurant database created")
 
-        prisma.review.createMany({
+        // To get ids from users and restaurants
+        // const users = await prisma.user.findMany()
+        // const restaurants = await prisma.restaurant.findMany()
+
+        // const updatedReviews
+
+        await prisma.review.createMany({
             data: review
         })
         console.log("Reviews are created")
 
-        prisma.comment.createMany({
+        await prisma.comment.createMany({
             data: comment
         })
         console.log("Comments are created")
