@@ -33,14 +33,6 @@ model Profile {
   userId  String @unique
 }
 
-model favoriteRestaurant {
-  id            String     @id @default(uuid())
-  businessName  String
-  category      String
-  operationTime String
-  address       String     @unique
-}
-
 model Restaurant {
   id            String     @id @default(uuid())
   businessName String
