@@ -4,7 +4,7 @@ getReviewById,
 updateReview,
 deleteReview,
 getReviewsByUser
-} = require("../queries/reviewQueries")
+} = require("../queries/cartQueries")
 
 const createReviewController = async (req, res) => {
     try {

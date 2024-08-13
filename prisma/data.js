@@ -24,16 +24,7 @@ const user = [
     }
 ]
 
-const favoriteRestaurant = [
-    {
-        businessName: "Chipotle",
-        category: "Mexican",
-        address: "123 Main St",
-        operationTime: "9am-10pm"        
-    }
-]
-
-const restaurant = [
+const cart = [
     {
         businessName: "Chipotle",
         category: "Mexican",
@@ -54,43 +45,29 @@ const restaurant = [
     }
 ]
 
-const review = [
+const product = [
     {
-        writtenReview: "My favorite place!",
-        rating: 5,
-        restaurantId: "",
-        userId: ""
+        name: "Converse Chuck Taylor All Star High Top",
+        price: 55.00,
+        pictureUrl: "",
+        description: "The iconic Converse high-top sneaker",
+        isAvailable: true,
     },
     {
-        writtenReview: "Not bad",
-        rating: 3,
-        restaurantId: "",
-        userId: ""
+        name: "Converse Chuck Taylor All Star Low Top",
+        price: 50.00,
+        pictureUrl: "",
+        description: "The low-top version of the timeless Converse Chuck Taylor All Star",
+        isAvailable: true,
     },
     {
-        writtenReview: "Service is horrible",
-        rating: 1,
-        restaurantId: "",
-        userId: ""
+        name: "Converse Chuck 70 High Top",
+        price: 85.00,
+        pictureUrl: "",
+        description: "",
+        isAvailable: true,
     }
 ]
 
-const comment = [
-    {
-        reviewId: "",
-        userId: "",
-        writtenComment: "I totally agree.",
-    },
-    {
-        reviewId: "",
-        userId: "",
-        writtenComment: "I thought the food was great",
-    },
-    {
-        reviewId: "",
-        userId: "",
-        writtenComment: "That's crazy!",
-    }
-]
 
-module.exports = {user, favoriteRestaurant, restaurant, review, comment}
+module.exports = {user, cart, product}

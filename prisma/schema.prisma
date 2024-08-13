@@ -21,9 +21,9 @@ model User {
   email     String  @unique
   password  String
   role      Role @default(USER)
-  reviews   Review?
-  comments  Comment?
   profile   Profile?
+  orders Order[]
+  cart Cart?
 }
 
 model Profile {
@@ -33,34 +33,50 @@ model Profile {
   userId  String @unique
 }
 
-model Restaurant {
-  id            String     @id @default(uuid())
-  businessName String
-  category      String
-  address       String     @unique
-  operationTime String
-  reviews       Review[]
+model Product {
+  id          String @id @default(uuid())
+  name        String
+  price       Float
+  pictureUrl  String
+  description String
+  isAvailable Boolean @default(true)
+  orderItems OrderItem[]
+  cartItems  CartItem[]
 }
 
-model Review {
-  id            String @id @default(uuid())
-  writtenReview String
-  rating        Int 
-  restaurantId  String
-  userId        String @unique
-  restaurant    Restaurant @relation(fields: [restaurantId], references: [id])
-  user          User @relation(fields: [userId], references: [id])
-  comments      Comment[]
+model Order {
+    id              String @id @default(uuid())
+    userId          String @unique
+    totalPrice      Float
+    user User       @relation(fields: [userId], references:[id], onDelete: Cascade)
+    orderItems      OrderItem[]
 }
 
-model Comment {
-  id             String @id @default(uuid())
-  writtenComment String
-  userId         String @unique
-  reviewId       String 
-  user           User @relation(fields: [userId], references: [id])
-  review         Review @relation(fields: [reviewId], references: [id])
+model OrderItem{
+  id              String @id @default(uuid())
+  orderId          String
+  productId       String
+  quantity        Int
+  order           Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product         Product @relation(fields: [productId], references:[id], onDelete: Restrict)
 }
+
+model Cart {
+  id  String @id @default(uuid())
+  userId String @unique
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cartItems CartItem[]
+}
+
+model CartItem {
+  id String @id @default(uuid())
+  cartId String
+  productId String
+  quantity Int @default(1)
+  cart Cart @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references:[id], onDelete: Restrict)
+}
+
 
 enum Role {
   USER
