@@ -8,32 +8,16 @@ const load = async() => {
         })
         console.log("User database created")
 
-        await prisma.favoriteRestaurant.createMany({
-            data: favoriteRestaurant
+        await prisma.product.createMany({
+            data: product
         })
-        console.log("Favorite restaurant database created")
+        console.log("Shoe product database created")
 
-        await prisma.restaurant.createMany({
-            data: restaurant
+
+        await prisma.cart.createMany({
+            data: cart
         })
-        console.log("Restaurant database created")
-
-        // To get ids from users and restaurants
-        // const users = await prisma.user.findMany()
-        // const restaurants = await prisma.restaurant.findMany()
-
-        // const updatedReviews
-
-        await prisma.review.createMany({
-            data: review
-        })
-        console.log("Reviews are created")
-
-        await prisma.comment.createMany({
-            data: comment
-        })
-        console.log("Comments are created")
-
+        console.log("Cart database is created")
 
     } catch (error) {
         console.error(error)

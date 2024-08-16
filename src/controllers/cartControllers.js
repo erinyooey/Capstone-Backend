@@ -71,11 +71,11 @@ const getReviewsByUserController = async(req, res) => {
     }
 }
 
-module.exports = {
-    createReviewController,
-    getReviewsForRestaurantController,
-    getReviewByIdController,
-    updatedReviewController,
-    deleteReviewController,
-    getReviewsByUserController
-}
+// module.exports = {
+//     createReviewController,
+//     getReviewsForRestaurantController,
+//     getReviewByIdController,
+//     updatedReviewController,
+//     deleteReviewController,
+//     getReviewsByUserController
+// }

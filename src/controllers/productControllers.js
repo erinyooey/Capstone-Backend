@@ -54,9 +54,9 @@ const {
   };
   
 
-  module.exports = {
-    addRestaurant,
-    deleteRestaurants,
-    displayAllRestaurants,
-    updateRestaurants,
-  };
+  // module.exports = {
+  //   addRestaurant,
+  //   deleteRestaurants,
+  //   displayAllRestaurants,
+  //   updateRestaurants,
+  // };
