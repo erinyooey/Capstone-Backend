@@ -95,7 +95,7 @@ const product = [
         price: 85.00,
         pictureUrl: "https://www.converse.com/dw/image/v2/BCZC_PRD/on/demandware.static/-/Sites-cnv-master-catalog/default/dwf2220713/images/a_107/162065C_A_107X1.jpg?sw=964",
         description: "A low-top version of the Chuck 70, blending classic style with enhanced cushioning",
-        isAvailable: true,
+        isAvailable: false,
     },
     {
         name: "Converse One Star",

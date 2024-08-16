@@ -1,4 +1,5 @@
 const { Role } = require("@prisma/client")
+const {bcrypt, prisma, jwt} = require("../shared/shared")
 
 // set up JWT token
 const JWT = process.env.JWT || 'set jwt'
@@ -26,6 +27,27 @@ const createUserQuery = async ({firstName, lastName, email, password}) => {
         console.error("Error creating user: ", error)
         throw error
     }
+}
+
+const registerQuery = async({firstName, lastName, email, password}) => {
+    const hashPassword = await bcrypt.hash(password, 10)
+    const registerUser = await prisma.user.create({
+        data: {
+            email,
+            password: hashPassword
+        }
+    })
+
+    const token = jwt.sign(
+    {
+        id: registerUser.id
+    },
+    process.env.WEB_TOKEN,
+    {
+        expiresIn: "1h",
+    }
+)
+return token
 }
 
 const getAllUsers = async() => {
