@@ -1,11 +1,9 @@
 const { route } = require("../shared/shared");
 const { findUserWithToken } = require("../queries/userQueries");
 const {
-  addRestaurant,
-  deleteRestaurants,
-  displayAllRestaurants,
-  updateRestaurants,
-} = require("../controllers/restaurantControllers");
+  addProduct,
+  displayAllProducts,
+} = require("../controllers/productControllers");
 
 
 const isAdmin = (req, res, next) => {
@@ -15,10 +13,9 @@ const isAdmin = (req, res, next) => {
   next()
 }
 
-route.post("/addRestaurant", isAdmin, addRestaurant);
-route.get("/", displayAllRestaurants);
-route.delete("/remove/:id", isAdmin, deleteRestaurants);
-route.put("/change/:id", isAdmin, updateRestaurants);
+route.post("/addProduct", isAdmin, addProduct);
+route.get("/", displayAllProducts);
+
 
 module.exports = route;
-module.exports.isAdmin = isAdmin
+module.exports.isAdmin = isAdmin;

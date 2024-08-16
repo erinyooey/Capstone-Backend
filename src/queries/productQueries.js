@@ -4,82 +4,83 @@ if(JWT_SECRET === 'shhh'){
   console.log('SET JWT ENVIRONMENT VARIABLE IN PRODUCTION')
 }
 
-const restaurantsQuery = async ({
-  businessName,
-  category,
-  address,
-  operationTime
+const productQuery = async ({
+  name,
+  price,
+  pictureUrl,
+  description,
+  isAvailable
 }) => {
   try {
-    const createRestaurant = await prisma.restaurant.create({
+    const createProduct = await prisma.product.create({
       data: {
-        businessName,
-        category,
-        address,
-        operationTime
+        name,
+        price,
+        pictureUrl,
+        description,
+        isAvailable
       },
     });
 
     return {
-      businessName: createRestaurant.businessName,
-      category: createRestaurant.category,
-      address: createRestaurant.address,
-      operationTime: createRestaurant.operationTime
+      name: createProduct.name,
+      price: createProduct.price,
+      pictureUrl: createProduct.pictureUrl,
+      description: createProduct.description,
+      isAvailable: createProduct.pictureUrl
     };
   } catch (error) {
-    console.error("Error add restaurant", error);
+    console.error("Error add product", error);
     throw error;
   }
 };
 
 // display all restaurant
 
-const getAllRestaurant = async () => {
-  const Restaurants = await prisma.Restaurant.findMany();
-  return Restaurants;
+const getAllProduct = async () => {
+  const products = await prisma.product.findMany();
+  return products;
 };
 
 // delete restaurant
 
-const destroyRestaurant = async (id) => {
-  let deleteRestaurant;
-  try {
-    deleteRestaurant = await prisma.Restaurant.delete({
-      where: {
-        id: id,
-      },
-    });
-  } catch (error) {
-    console.log(error);
-  }
-  return deleteRestaurant;
-};
+// const destroyRestaurant = async (id) => {
+//   let deleteRestaurant;
+//   try {
+//     deleteRestaurant = await prisma.Restaurant.delete({
+//       where: {
+//         id: id,
+//       },
+//     });
+//   } catch (error) {
+//     console.log(error);
+//   }
+//   return deleteRestaurant;
+// };
 
 // update restaurant
 
-const alterRestaurant = async (id, body) => {
-  try {
-    const { businessName, category, address, operationTime } = body;
-    const changedRestaurant = await prisma.Restaurant.update({
-      where: { id },
-      data: {
-        id,
-        businessName: businessName,
-        category: category,
-        address: address,
-        operationTime: operationTime,
-      },
-    });
-    return changedRestaurant;
-  } catch (error) {
-    console.error("Error updating restaurant:", error);
-    throw error;
-  }
-};
+// const alterRestaurant = async (id, body) => {
+//   try {
+//     const { businessName, category, address, operationTime } = body;
+//     const changedRestaurant = await prisma.Restaurant.update({
+//       where: { id },
+//       data: {
+//         id,
+//         businessName: businessName,
+//         category: category,
+//         address: address,
+//         operationTime: operationTime,
+//       },
+//     });
+//     return changedRestaurant;
+//   } catch (error) {
+//     console.error("Error updating restaurant:", error);
+//     throw error;
+//   }
+// };
 
 module.exports = {
-  restaurantsQuery,
-  destroyRestaurant,
-  getAllRestaurant,
-  alterRestaurant,
+  productQuery,
+  getAllProduct
 };

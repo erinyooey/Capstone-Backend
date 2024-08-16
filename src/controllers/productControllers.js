@@ -1,62 +1,61 @@
 const {
-    restaurantsQuery,
-    destroyRestaurant,
-    getAllRestaurant,
-    alterRestaurant,
-  } = require("../queries/restaurantQueries");
+    productQuery,
+    getAllProduct,
+  } = require("../queries/productQueries");
 
-  // add restaurant endpoint
 
-  const addRestaurant = async (req, res) => {
-    const { businessName, category, address, limit } = req.body;
+
+  const addProduct = async (req, res) => {
+    const { name, price, pictureUrl, isAvailable } = req.body;
   
     try {
-      const restaurantResponse = await restaurantsQuery(req.body);
-      res.json(restaurantResponse);
+      const productResponse = await productQuery(req.body);
+      res.json(productResponse);
     } catch (error) {
       console.error(error);
       res.status(401).send("Invalid.");
     }
   };
 
-  // display all restaurants
+  // display all products
 
-  const displayAllRestaurants = async (req, res, next) => {
-    const restaurants = await getAllRestaurant();
-    res.send(restaurants);
-  };
-
-  // delete restaurant
-
-  const deleteRestaurants = async (req, res, next) => {
-    const id = req.params.id;
-    const deleteRestaurant = await destroyRestaurant(id);
-    res.send(deleteRestaurant);
-  };
-
-  //update restaurant
-
-  const updateRestaurants = async (req, res, next) => {
-    const restaurantId = req.params.id;
-  
-    try {
-      const changedRestaurant = await alterRestaurant(
-        restaurantId,
-        req.body
-      );
-      res.json(changedRestaurant);
+  const displayAllProducts = async (req, res, next) => {
+    try {      
+      const products = await getAllProduct();
+      res.status(200).json(products);
     } catch (error) {
-      console.error(error);
-      res
-        .status(500)
-        .json({ error: "Failed to update favorite restaurant info" });
+      res.status(500).json({error: "Internal Server Error"})
     }
   };
+
+
+
+  // const deleteRestaurants = async (req, res, next) => {
+  //   const id = req.params.id;
+  //   const deleteRestaurant = await destroyRestaurant(id);
+  //   res.send(deleteRestaurant);
+  // };
+
+
+  // const updateRestaurants = async (req, res, next) => {
+  //   const restaurantId = req.params.id;
+  
+  //   try {
+  //     const changedRestaurant = await alterRestaurant(
+  //       restaurantId,
+  //       req.body
+  //     );
+  //     res.json(changedRestaurant);
+  //   } catch (error) {
+  //     console.error(error);
+  //     res
+  //       .status(500)
+  //       .json({ error: "Failed to update favorite restaurant info" });
+  //   }
+  // };
   
 
-  // module.exports = {
-  //   addRestaurant,
-  //   deleteRestaurants,
-  //   displayAllRestaurants,
-  //   updateRestaurants,
-  // };
+  module.exports = {
+    addProduct,
+    displayAllProducts
+  };
