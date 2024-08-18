@@ -1,6 +1,6 @@
 const { prisma, jwt } = require("../shared/shared");
-const JWT_SECRET = process.env.JWT_SECRET || "shhh";
-if (JWT_SECRET === "shhh") {
+const WEB_TOKEN = process.env.WEB_TOKEN || "shhh";
+if (WEB_TOKEN === "shhh") {
   console.log("SET JWT ENVIRONMENT VARIABLE IN PRODUCTION");
 }
 
@@ -22,32 +22,34 @@ const createOrFindCart = async (userId) => {
 
 const addItem = async(cartId, productId, quantity = 1) => {
   try {
-    const existingItem = await prisma.cartItem.findFirst({
-      where: {cartId, productId}
+    console.log("Adding item to cart:", { cartId, productId, quantity }); // Debugging line
+
+    const foundProduct = await prisma.product.findUnique({
+      where: {id: productId}
     })
-    
-    let updatedCartItem;
+    console.log("product id: ", foundProduct)
+
+    const existingItem = await prisma.cartItem.findFirst({
+      where: {cartId: cartId, productId: productId}
+    })
 
     if(existingItem){
+      console.log("Item exists in cart, updating quantity..."); // Debugging line
       // update the cart quantity
-      updatedCartItem = await prisma.cartItem.update({
+      const updatedCartItem = await prisma.cartItem.update({
         where: {id: existingItem.id},
         data: {quantity: existingItem.quantity + quantity}
       })
+      return updatedCartItem
     } else {
-      // create cart item that got added
-      updatedCartItem = await prisma.cartItem.create({
+      const newItem = await prisma.cartItem.create({
         data: {
-          cartId,
-          productId,
-          quantity
+          cartId: cartId,
+          productId: productId,
+          quantity: quantity,
         }
       })
-    }
-    return {
-      id: updatedCartItem.id,
-      productId: updatedCartItem.productId,
-      quantity: updatedCartItem.quantity
+      return newItem
     }
   } catch (error) {
     console.error("Error adding item to cart", error)
@@ -55,16 +57,27 @@ const addItem = async(cartId, productId, quantity = 1) => {
   }
 }
 
-const updateQuantity = async({cartItemId, quantity})=>{
+const updateQuantity = async({cartId, quantity, productId})=>{
   try {
+    console.log("cart item id: ", cartId)
+
+    const existingCartItem = await prisma.cartItem.findFirst({
+      where: {cartId: cartId, productId: productId}
+    })
+
+    if(!existingCartItem){
+      console.error("Cart item not found for this cart and product")
+      throw new Error("CartItem not found") // stops the code
+    }
+
     const update = await prisma.cartItem.update({
-      where: {id: cartItemId},
+      where: {id: existingCartItem.id},
       data: {quantity}
     })
     return update
   } catch (error) {
-    console.error("Error updating quantity")
-    throw error
+    console.error("Error updating quantity: ", error)
+    throw new Error("Error updating quantity")
   }
 }
 
@@ -75,16 +88,15 @@ const getCartByUserId = async (userId) => {
   })
 }
 
-const removeItem = async (cartItemId) => {
-  let remove
+const removeItem = async (cartId, cartItemId) => {
   try {
-    remove = await prisma.cartItem.delete({
-      where: {id: cartItemId}
+    return await prisma.cartItem.delete({
+      where: {cartId, id: cartItemId}
     })
   } catch (error) {
-    console.error("error deleting cart item")
+    console.error("error deleting cart item: ", error)
+    throw new Error("Failed removing cart item")
   }
-  return remove
 }
 
 module.exports = {

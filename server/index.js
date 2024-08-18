@@ -1,7 +1,9 @@
+require('dotenv').config();
+// console.log("WEB_TOKEN: ", process.env.WEB_TOKEN)
 const {app} = require("../src/shared/shared")
 
 const userRoutes = require("../src/routes/userRoutes")
-// const cartRoutes = require("../src/routes/cartRoutes");
+const cartRoutes = require("../src/routes/cartRoutes");
 const productRoutes = require("../src/routes/productRoutes")
 
 const PORT = process.env.PORT || 3000;
@@ -15,7 +17,7 @@ app.use((req, res, next)=>{
 })
 
 app.use("/api/user", userRoutes);
-// app.use("/api/cart", cartRoutes);
+app.use("/api/cart", cartRoutes);
 app.use("/api/products", productRoutes)
 
 

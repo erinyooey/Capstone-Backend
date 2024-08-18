@@ -1,6 +1,6 @@
 const { bcrypt, prisma, jwt } = require("../shared/shared");
-const JWT_SECRET = process.env.JWT_SECRET || 'shhh';
-if(JWT_SECRET === 'shhh'){
+const WEB_TOKEN = process.env.WEB_TOKEN || 'shhh';
+if(WEB_TOKEN === 'shhh'){
   console.log('SET JWT ENVIRONMENT VARIABLE IN PRODUCTION')
 }
 
@@ -11,16 +11,27 @@ const productQuery = async ({
   description,
   isAvailable
 }) => {
-  try {
+  try { 
     const createProduct = await prisma.product.create({
       data: {
         name,
         price,
-        pictureUrl,
-        description,
-        isAvailable
-      },
+        pictureUrl,      
+        description,      
+        isAvailable   
+      },                  
     });
+    // console.log("createProduct: ", createProduct)
+
+    // check product id
+    // const product = await prisma.product.findUnique({
+    //   where: { id: productId },
+    // });
+    
+    // if (!product) {
+    //   console.error(`Product with ID ${productId} does not exist`);
+    //   return res.status(400).json({ message: "Invalid product ID" });
+    // }
 
     return {
       name: createProduct.name,
@@ -36,8 +47,13 @@ const productQuery = async ({
 };
 
 const getAllProduct = async () => {
-  const products = await prisma.product.findMany();
-  return products;
+  try {    
+    const products = await prisma.product.findMany();
+    return products;
+  } catch (error) {
+    console.error("Error fetching products: ", error)
+    throw error
+  }
 };
 
 

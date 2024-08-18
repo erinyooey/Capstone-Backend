@@ -33,16 +33,6 @@ model Profile {
   userId  String @unique
 }
 
-model Product {
-  id          String @id @default(uuid())
-  name        String
-  price       Float
-  pictureUrl  String
-  description String
-  isAvailable Boolean @default(true)
-  orderItems OrderItem[]
-  cartItems  CartItem[]
-}
 
 model Order {
     id              String @id @default(uuid())
@@ -61,6 +51,16 @@ model OrderItem{
   product         Product @relation(fields: [productId], references:[id], onDelete: Restrict)
 }
 
+model Product {
+  id          String @id @default(uuid())
+  name        String
+  price       Float
+  pictureUrl  String
+  description String
+  isAvailable Boolean @default(true)
+  orderItems OrderItem[]
+  cartItems  CartItem[]
+}
 model Cart {
   id  String @id @default(uuid())
   userId String @unique

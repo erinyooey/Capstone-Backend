@@ -1,36 +1,20 @@
-const { route } = require("../shared/shared");
+const express = require('express');
+const router = express.Router();
 const {
-  createReviewController,
-  getReviewByIdController,
-  getReviewsByUserController,
-  updatedReviewController,
-  deleteReviewController,
-  getReviewsForRestaurantController,
-} = require("../controllers/reviewControllers");
+  addItemToCart,
+  updateCartItem,
+  getCartForUser,
+  removeItemFromCart,
+  createCart
+} = require("../controllers/cartControllers");
 
-const { findUserWithToken } = require("../queries/userQueries");
+const {isLoggedIn} = require("../../server/authMiddleware")
 
-const isLoggedIn = async (req, res, next) => {
-  try {
-    req.user = await findUserWithToken(req.headers.authorization);
-    next();
-  } catch (error) {
-    res.status(401).json({message: "Unauthorized"})
-    next(error);
-  }
-};
+router.post("/create", isLoggedIn, createCart)
+router.post("/add", isLoggedIn, addItemToCart);
+router.put("/update", isLoggedIn, updateCartItem);
+router.delete("/remove", isLoggedIn, removeItemFromCart);
 
-route.post("/", isLoggedIn, createReviewController);
-route.put("/:id", isLoggedIn, updatedReviewController);
-route.delete("/:id", isLoggedIn, deleteReviewController);
+router.get("/", isLoggedIn, getCartForUser)
 
-route.get(
-  "/:restaurantId",
-  isLoggedIn,
-  getReviewsForRestaurantController
-);
-route.get("/:id", isLoggedIn, getReviewByIdController);
-route.get("/:userId", isLoggedIn, getReviewsByUserController);
-
-module.exports = route;
-module.exports.isLoggedIn = isLoggedIn;
+module.exports = router;

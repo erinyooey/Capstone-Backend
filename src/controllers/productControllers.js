@@ -24,36 +24,10 @@ const {
       const products = await getAllProduct();
       res.status(200).json(products);
     } catch (error) {
+      console.error("Error in displayAllProducts:", error); // Log the detailed error
       res.status(500).json({error: "Internal Server Error"})
     }
   };
-
-
-
-  // const deleteRestaurants = async (req, res, next) => {
-  //   const id = req.params.id;
-  //   const deleteRestaurant = await destroyRestaurant(id);
-  //   res.send(deleteRestaurant);
-  // };
-
-
-  // const updateRestaurants = async (req, res, next) => {
-  //   const restaurantId = req.params.id;
-  
-  //   try {
-  //     const changedRestaurant = await alterRestaurant(
-  //       restaurantId,
-  //       req.body
-  //     );
-  //     res.json(changedRestaurant);
-  //   } catch (error) {
-  //     console.error(error);
-  //     res
-  //       .status(500)
-  //       .json({ error: "Failed to update favorite restaurant info" });
-  //   }
-  // };
-  
 
   module.exports = {
     addProduct,

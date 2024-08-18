@@ -1,81 +1,96 @@
-const {createReview, 
-getReviewsForRestaurant,
-getReviewById,
-updateReview,
-deleteReview,
-getReviewsByUser
+const {prisma} = require("../shared/shared")
+
+const {createOrFindCart,
+    addItem,
+    removeItem,
+    getCartByUserId,
+    updateQuantity
 } = require("../queries/cartQueries")
 
-const createReviewController = async (req, res) => {
+const createCart = async(req, res) => {
+    // utilize user id. if no user id, throw 400 error
+    if(!req.user || !req.user.id){
+        return res.status(401).json({message: "Unauthorized: User not authenticated"})
+    }
     try {
-        const authorizationHeader = req.headers.authorization
-        const reviewData = {
-            writtenReview: req.body.writtenReview,
-            rating: req.body.rating,
-            restaurantId: req.body.restaurantId
+        const userId = req.user.id
+
+        // check if a cart already exists for the user
+        const existingCart = await prisma.cart.findUnique({where: {userId: userId}})
+        if(existingCart){
+            return res.status(400).json({message: "Cart already exists for this user"})
         }
-        const newReview = await createReview(reviewData, authorizationHeader)
-        res.status(201).json(newReview)
+
+        // else create a new cart for the user
+        const createdCart = await prisma.cart.create({
+            data: {
+                userId, // associate with user id
+            }
+        })
+        res.status(200).json({message: "Cart created", cart: createdCart})
     } catch (error) {
-        console.error("Failed to create new review: ", error)
-        res.status(400).json({error: "Failed to create review"})
+        console.error("Error creating cart: ", error)
+        res.status(500).json({error: "Failed to create cart"})
+    }
+}
+
+const addItemToCart = async (req, res) => {
+    const {productId, quantity} = req.body
+    const userId = req.user.id;
+    try {
+        const userCart = await prisma.cart.findUnique({
+            where: { userId: userId },
+        });
+        if (!userCart) {
+            return res.status(404).json({ error: "Cart not found for this user" });
+        }
+         // Use the cart ID to add an item to the cart
+    const addedItem = await addItem(userCart.id, productId, quantity);
+    res.status(200).json(addedItem);
+    } catch (error) {
+        console.error("console error: ", error)
+        res.status(500).json({error: "Failed to add item to cart"})
     }
 } 
 
-const getReviewsForRestaurantController = async(req, res) => {
+const updateCartItem = async(req, res) => {
     try {
-        const restaurantId = req.params.restaurantId;
-        const reviews = await getReviewsForRestaurant(restaurantId)
-        res.status(200).json(reviews)
+        const {cartId, quantity, productId} = req.body;
+        const cartItem = await updateQuantity({cartId, quantity, productId})
+        res.status(200).json(cartItem)
     } catch (error) {
-        res.status(500).json({error: "Failed to get reviews for restaurant"})
+        console.error("error: ", error)
+        res.status(500).json({error: "Failed to get update cart item quantity"})
     }
 }
 
-const getReviewByIdController = async(req, res) => {
+const getCartForUser = async(req, res) => {
     try {
-        const reviewId = req.params.id;
-        const review = await getReviewById(reviewId)
-        res.status(200).json(review)
+        const userId = req.user.id;
+        const cart = await getCartByUserId(userId)
+        res.status(200).json(cart)
     } catch (error) {
-        res.status(500).json({error: "Cannot get review by its id"})
+        res.status(500).json({error: "Cannot get retrieve cart"})
     }
 }
 
-const updatedReviewController = async(req, res) => {
+
+const removeItemFromCart = async(req, res) => {
     try {
-        const reviewData = {writtenReview: req.body.writtenReview, rating: req.body.rating}
-        const updatedReview = await updateReview(req.params.id, reviewData, req.headers.authorization)
-        res.status(200).json(updateReview)
+        const {cartId, cartItemId} = req.body
+        const deleteCartItem = await removeItem(cartId, cartItemId)
+        res.status(204).send(deleteCartItem)
     } catch (error) {
-        res.status(400).json({error: "Failed to update review"})
+        res.status(500).json({error: "Failed to remove item from cart"})
     }
 }
 
-const deleteReviewController = async(req, res) => {
-    try {
-        await deleteReview(req.params.id, req.headers.authorization)
-        res.status(204).send()
-    } catch (error) {
-        res.status(400).json({error: "Failed to delete review"})
-    }
-}
 
-const getReviewsByUserController = async(req, res) => {
-    try {
-        const userId = req.params.userId;
-        const reviews = await getReviewsByUser(userId)
-        res.status(200).json(reviews)
-    } catch (error) {
-        res.status(500).json({error: "Failed to get reviews by user"})
-    }
-}
 
-// module.exports = {
-//     createReviewController,
-//     getReviewsForRestaurantController,
-//     getReviewByIdController,
-//     updatedReviewController,
-//     deleteReviewController,
-//     getReviewsByUserController
-// }
+module.exports = {
+    addItemToCart,
+    updateCartItem,
+    getCartForUser,
+    removeItemFromCart,
+    createCart
+}

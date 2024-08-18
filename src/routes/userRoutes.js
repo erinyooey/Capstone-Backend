@@ -1,6 +1,12 @@
-const { route } = require("../shared/shared");
-const {loginUser} = require("../controllers/userControllers")
+const express = require('express');
+const router = express.Router();
+const {loginUser, registerUser, getAllUsersController} = require("../controllers/userControllers")
+const {isAdmin} = require("../../server/authMiddleware")
 
-route.post("/", loginUser)
 
-module.exports = route
+router.post("/register", registerUser)
+router.post("/login", loginUser)
+
+router.get("/profile", isAdmin, getAllUsersController)
+module.exports = router
+
