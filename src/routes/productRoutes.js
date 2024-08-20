@@ -4,11 +4,13 @@ const {isAdmin, isLoggedIn} = require("../../server/authMiddleware")
 const {
   addProduct,
   displayAllProducts,
+  getProductById
 } = require("../controllers/productControllers");
 
-
-router.post("/addProduct", isLoggedIn, addProduct);
+router.get("/:id", getProductById)
 router.get("/", displayAllProducts);
+
+router.post("/addProduct", isAdmin, addProduct);
 
 
 module.exports = router;

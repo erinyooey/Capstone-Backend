@@ -56,8 +56,20 @@ const getAllProduct = async () => {
   }
 };
 
+const getProductByIdQuery = async (id) => {
+  try {
+    const product = await prisma.product.findUnique({
+      where: {id: id}
+    })
+    return product
+  } catch (error) {
+    console.error("Error fetching product by ID in query: ", error)
+    throw error
+  }
+}
 
 module.exports = {
   productQuery,
-  getAllProduct
+  getAllProduct,
+  getProductByIdQuery
 };

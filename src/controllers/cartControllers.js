@@ -14,20 +14,8 @@ const createCart = async(req, res) => {
     }
     try {
         const userId = req.user.id
-
-        // check if a cart already exists for the user
-        const existingCart = await prisma.cart.findUnique({where: {userId: userId}})
-        if(existingCart){
-            return res.status(400).json({message: "Cart already exists for this user"})
-        }
-
-        // else create a new cart for the user
-        const createdCart = await prisma.cart.create({
-            data: {
-                userId, // associate with user id
-            }
-        })
-        res.status(200).json({message: "Cart created", cart: createdCart})
+        const cart = await createOrFindCart(userId) 
+        res.status(200).json({message: "Cart created", cart: cart})
     } catch (error) {
         console.error("Error creating cart: ", error)
         res.status(500).json({error: "Failed to create cart"})

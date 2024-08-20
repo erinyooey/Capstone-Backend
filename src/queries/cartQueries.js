@@ -66,15 +66,20 @@ const updateQuantity = async({cartId, quantity, productId})=>{
     })
 
     if(!existingCartItem){
-      console.error("Cart item not found for this cart and product")
-      throw new Error("CartItem not found") // stops the code
+      // if user adds item for the first time, add the item with quantity 1
+      const update = await prisma.cartItem.create({
+        data: {quantity: 1},
+      })
+      return update
+    }
+    else{
+      const update = await prisma.cartItem.update({
+        where: {id: existingCartItem.id},
+        data: {quantity}
+      })
+      return update
     }
 
-    const update = await prisma.cartItem.update({
-      where: {id: existingCartItem.id},
-      data: {quantity}
-    })
-    return update
   } catch (error) {
     console.error("Error updating quantity: ", error)
     throw new Error("Error updating quantity")

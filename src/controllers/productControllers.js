@@ -1,6 +1,9 @@
+const prisma = require("../shared/shared")
+
 const {
     productQuery,
     getAllProduct,
+    getProductByIdQuery
   } = require("../queries/productQueries");
 
 
@@ -29,7 +32,25 @@ const {
     }
   };
 
+  // fetch single product by ID
+  const getProductById = async(req, res)=> {
+    console.log('req.params:', req.params); // Log the params to debug
+
+    const {id} = req.params
+    try {
+      const product = await getProductByIdQuery(id)
+      if(!product){
+        return res.status(404).json({error: "Product not found"})
+      }
+      res.json(product)
+    } catch (error) {
+      console.error("Error fetching product by id:", error.message); // Log the actual error
+      res.status(500).json({error: "Error fetching product by id"})
+    }
+  }
+
   module.exports = {
     addProduct,
-    displayAllProducts
+    displayAllProducts,
+    getProductById
   };
